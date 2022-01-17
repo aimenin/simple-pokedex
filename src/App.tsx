@@ -16,7 +16,7 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <Routes>
             <Route element={<PokemonList />} path="/"/>
-            <Route element={<PokemonDetails />} path="/details:name"/>
+            <Route element={<PokemonDetails />} path="/details/:name"/>
           </Routes>
         </QueryClientProvider>
       </BrowserRouter>

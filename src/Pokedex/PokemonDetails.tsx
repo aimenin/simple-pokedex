@@ -7,7 +7,7 @@ const PokemonDetails = () => {
   const {name} = useParams<{name: string}>();
 
   const {data, isLoading} = useQuery(["pokemon-detail", name], async () => {
-    return await fetch(constants.apiPath + name)
+    return await fetch(constants.apiPath + "/" + name)
       .then(res => res.json());
   },
   {
