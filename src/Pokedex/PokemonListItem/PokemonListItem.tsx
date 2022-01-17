@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
 import styles from "./PokemonListItem.module.css";
 
 const PokemonListItem = ({data}: any) => {
-  return (<Link to={`/details/${data?.name}`} className={styles["item-container"]}>
+  return (<div className={styles["item-container"]}>
     <div>
       <img src={data?.sprites.front_default} alt="" width="96" height="96"/>
     </div>
@@ -14,7 +13,7 @@ const PokemonListItem = ({data}: any) => {
         Types: {data.types.map((t: any) => t.type.name).join(", ")}
       </div>
     </div>
-  </Link>)
+  </div>)
 }
 
 export default PokemonListItem;
