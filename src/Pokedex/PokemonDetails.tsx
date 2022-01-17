@@ -1,7 +1,10 @@
 import React from 'react'
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { detailFetcher } from '../Api';
+import PokemonListItem from './PokemonListItem';
+import styles from './PokemonDetails.module.css';
 
 const PokemonDetails = () => {
   const {name} = useParams<{name: string}>();
@@ -13,7 +16,10 @@ const PokemonDetails = () => {
 
   return (
     <>
-      {!isLoading && JSON.stringify(data)}
+      <Link  to="/" className={styles['nav-bar']}>
+        &lt; Back to the Pokedex
+      </Link>
+      {!isLoading && <PokemonListItem name={name!} url={data.url}/>}
     </>
   )
 }
