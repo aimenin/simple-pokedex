@@ -1,10 +1,14 @@
 import React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import PokemonList from './Pokedex/PokemonList';
+
+const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <div className="App">
-      <h1>Hello world</h1>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <PokemonList />
+    </QueryClientProvider>
   );
 }
 
