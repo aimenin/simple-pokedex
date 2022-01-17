@@ -1,9 +1,13 @@
 import React from 'react'
 import { useQuery } from 'react-query';
+import { useParams } from 'react-router';
+import { constants } from '../constansts/apiConstnatns';
 
-const PokemonDetails = ({name} : {name: string}) => {
+const PokemonDetails = () => {
+  const {name} = useParams<{name: string}>();
+
   const {data, isLoading} = useQuery(["pokemon-detail", name], async () => {
-    return await fetch("https://pokeapi.co/api/v2/pokemon/" + name)
+    return await fetch(constants.apiPath + name)
       .then(res => res.json());
   },
   {

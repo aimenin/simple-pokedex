@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import PokemonList from './Pokedex/PokemonList';
+import { createBrowserHistory } from 'history';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+const PokemonDetails = lazy(() => import('./Pokedex/PokemonDetails'));
+const PokemonList = lazy (() => import('./Pokedex/PokemonList'));
+
+// const history = createBrowserHistory();
 const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <PokemonList />
-    </QueryClientProvider>
+    <Suspense fallback={<>loading ...</>}>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <Routes>
+            <Route element={<PokemonList />} path="/"/>
+            <Route element={<PokemonDetails />} path="/details:name"/>
+          </Routes>
+        </QueryClientProvider>
+      </BrowserRouter>
+    </Suspense>
   );
 }
 

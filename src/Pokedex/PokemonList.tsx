@@ -1,9 +1,12 @@
 import React from 'react'
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
+import { constants } from '../constansts/apiConstnatns';
+import PokemonDetails from './PokemonDetails';
 
 const PokemonList = () => {
   const {data, isLoading} = useQuery("pokemon-list", async () => {
-    return await fetch("https://pokeapi.co/api/v2/pokemon?limit=100&offset=0")
+    return await fetch(constants.apiPath +"?limit=100&offset=0")
       .then(res => res.json());
   },
   {
@@ -12,7 +15,12 @@ const PokemonList = () => {
 
   return (
     <>
-      {!isLoading && data.results.map((e: any) => <div key={e.name}>{e.name}</div>)}
+      {!isLoading && data.results.map((e: any) => <div key={e.name}>
+        <Link to={`/details/${e.name}`}>
+          <PokemonDetails />
+        </Link>
+        {e.name}
+      </div>)}
     </>
   )
 };
