@@ -1,27 +1,31 @@
 import React from 'react'
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import { Link } from 'react-router-dom';
-import { constants } from '../constansts/apiConstnatns';
 import PokemonListItem from './PokemonListItem';
 import styles from "./PokemonList.module.css";
 import { observer } from 'mobx-react-lite';
+import { listFetcher } from '../Api';
 
 const PokemonList = ({filter}: any) => {
-  const {data, isLoading} = useQuery("pokemon-list", async () => {
-    return await fetch(constants.apiPath +"?limit=100&offset=0")
-      .then(res => res.json());
-  },
+  const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery("pokemon-list", listFetcher(),
   {
     staleTime: 600_000,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.next !== null) {
+        return lastPage.page + 1;
+      }
+    }
   });
 
   return (
     <>
-      {!isLoading && data.results.filter(filter).map((e: any) => (
+      {!isLoading && data?.pages.map((d) => d.results.filter(filter).map((e: any) => (
         <Link to={`details/${e.name}`} key={e.name} className={styles["pokemon-link"]}>
           <PokemonListItem {...e}/>
         </Link>
-      ))}
+      )))}
+
+      {hasNextPage && (<button className={styles["load-more-btn"]} onClick={() => fetchNextPage()}>Load more</button>)}
     </>
   )
 };
